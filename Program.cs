@@ -16,7 +16,7 @@ namespace Examen
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.WriteIndented = true;
-
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -29,6 +29,13 @@ namespace Examen
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
